@@ -1,4 +1,8 @@
 module.exports = function (grunt) {
+
+  // load all grunt tasks
+  require('load-grunt-tasks')(grunt);
+
   grunt.initConfig({
     pkg : grunt.file.readJSON('package.json'),
     version : '0.9.0',
@@ -29,10 +33,12 @@ module.exports = function (grunt) {
         files : ['<%= srcPath %>'],
         tasks : ['jshint', 'uglify']
       }
+    },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
     }
   });
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.registerTask('build', ['jshint', 'uglify']);
 };
