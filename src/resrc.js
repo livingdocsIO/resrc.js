@@ -823,12 +823,30 @@
     }
   };
 
+  /**
+   * Update an image src with a new url
+   * @param elem
+   * @param url {string}
+   */
+  var setElementSrc = function(elem, url) {
+    // Return if one of the params is undefined.
+    if (!elem || !url) {
+      return;
+    }
+
+    // Set the image source manually
+    setImgSrc(elem, url);
+
+    // recalculate and reset the image src
+    updateElementSrc(elem);
+  };
 
   /**
    * Expose various private functions as public methods.
    */
   resrc.ready = domReady;
   resrc.run = initResrc;
+  resrc.setImageUrl = setElementSrc;
   resrc.getResrcImageObject = getResrcImageObject;
   resrc.getElementsByClassName = getElementsByClassName;
   resrc.options = options;
