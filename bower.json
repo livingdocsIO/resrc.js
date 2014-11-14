@@ -3,6 +3,7 @@
   "version" : "0.9.0",
   "description" : "A JavaScript library for pixel perfect images on demand.",
   "homepage": "https://github.com/upfrontIO/resrc.js",
+  "main": "src/resrc.js",
   "license" : "GPL-2.0",
   "repository" : {
     "type" : "git",
