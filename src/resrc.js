@@ -406,6 +406,14 @@
     return elem.getAttribute("resrc") || elem.getAttribute("data-src") || elem.getAttribute("src");
   };
 
+  /**
+   * Set the elements image src.
+   * @param elem
+   * @param value {string}
+   */
+  var setImgSrc = function (elem, value) {
+    elem.setAttribute("data-src", value);
+  };
 
   /**
    * Get the parameter.
