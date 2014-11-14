@@ -719,21 +719,30 @@
   var replaceElementSrc = function (elem) {
     // Declare the resrc image object.
     var resrcObj = getResrcImageObject(elem);
+    // Declare the current width of the element.
+    var currentElemWidth = resrcObj.width;
+    // Make sure lastWidth is set on the element.
+    elem.lastWidth = elem.lastWidth || 0;
+    // Abort if the resrcOnResizeDown option is disabled, and
+    // the last width of the element is greater than the current width.
+    if (options.resrcOnResizeDown === false) {
+      if (elem.lastWidth >= currentElemWidth) {
+        return;
+      }
+    }
+
+    setElementSrc(elem, resrcObj);
+  };
+
+
+  var setElementSrc = function (elem, resrcObj) {
     // Declare the resrc image path.
     var resrcImgPath = resrcObj.resrcImgPath;
     // Declare the fallback image path.
     var fallbackImgPath = resrcObj.fallbackImgPath;
     // Declare the current width of the element.
     var currentElemWidth = resrcObj.width;
-    // Set the last width of the element.
-    elem.lastWidth = elem.lastWidth || 0;
-    // If the resrcOnResizeDown option is is set to false, then...
-    if (options.resrcOnResizeDown === false) {
-      // Return if the last width of the element is >= to the current width.
-      if (elem.lastWidth >= currentElemWidth) {
-        return;
-      }
-    }
+
     // If element is an image tag, then...
     if (getTagName(elem) === "img"){
       // Set the src of the element to be the resrc image path.
@@ -755,10 +764,10 @@
         elem.style.backgroundImage = "url(" + fallbackImgPath + ")";
       };
     }
+
     // Set the elements last width = to the current width.
     elem.lastWidth = currentElemWidth;
   };
-
 
   /**
    * Initialize resrc
