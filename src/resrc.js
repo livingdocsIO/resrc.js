@@ -515,7 +515,7 @@
    * This is used in the "gestureend" event listener callback.
    */
   var elementPinched = function () {
-    replaceElementSrc(this);
+    updateElementSrcIfNeeded(this);
   };
 
 
@@ -721,10 +721,11 @@
 
 
   /**
-   * Replace the image source of the element.
+   * Replace the image source of the element if size changes
+   * and configurations make it necessary.
    * @param elem
    */
-  var replaceElementSrc = function (elem) {
+  var updateElementSrcIfNeeded = function (elem) {
     // Declare the resrc image object.
     var resrcObj = getResrcImageObject(elem);
     // Declare the current width of the element.
@@ -739,11 +740,18 @@
       }
     }
 
-    setElementSrc(elem, resrcObj);
+    updateElementSrc(elem, resrcObj);
   };
 
 
-  var setElementSrc = function (elem, resrcObj) {
+  /**
+   * Set the image source of the element.
+   * @param  elem
+   * @param  resrcObj [optional] object accquired with getResrcImageObject(elem)
+   */
+  var updateElementSrc = function (elem, resrcObj) {
+    // Declare image object if it was not supplied.
+    resrcObj = resrcObj || getResrcImageObject(elem);
     // Declare the resrc image path.
     var resrcImgPath = resrcObj.resrcImgPath;
     // Declare the fallback image path.
@@ -807,7 +815,7 @@
         addGestureendEvent(elemArr[i]);
       }
       // replace the element image source.
-      replaceElementSrc(elemArr[i]);
+      updateElementSrc(elemArr[i]);
     }
     // Finally add the window resize event if the resrcOnResize option is set to true.
     if (options.resrcOnResize && !windowHasResizeEvent) {
