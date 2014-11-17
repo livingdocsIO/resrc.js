@@ -406,6 +406,14 @@
     return elem.getAttribute("resrc") || elem.getAttribute("data-src") || elem.getAttribute("src");
   };
 
+  /**
+   * Set the elements image src.
+   * @param elem
+   * @param value {string}
+   */
+  var setImgSrc = function (elem, value) {
+    elem.setAttribute("data-src", value);
+  };
 
   /**
    * Get the parameter.
@@ -507,7 +515,7 @@
    * This is used in the "gestureend" event listener callback.
    */
   var elementPinched = function () {
-    replaceElementSrc(this);
+    updateElementSrcIfNeeded(this);
   };
 
 
@@ -713,27 +721,44 @@
 
 
   /**
-   * Replace the image source of the element.
+   * Replace the image source of the element if size changes
+   * and configurations make it necessary.
    * @param elem
    */
-  var replaceElementSrc = function (elem) {
+  var updateElementSrcIfNeeded = function (elem) {
     // Declare the resrc image object.
     var resrcObj = getResrcImageObject(elem);
+    // Declare the current width of the element.
+    var currentElemWidth = resrcObj.width;
+    // Make sure lastWidth is set on the element.
+    elem.lastWidth = elem.lastWidth || 0;
+    // Abort if the resrcOnResizeDown option is disabled, and
+    // the last width of the element is greater than the current width.
+    if (options.resrcOnResizeDown === false) {
+      if (elem.lastWidth >= currentElemWidth) {
+        return;
+      }
+    }
+
+    updateElementSrc(elem, resrcObj);
+  };
+
+
+  /**
+   * Set the image source of the element.
+   * @param  elem
+   * @param  resrcObj [optional] object accquired with getResrcImageObject(elem)
+   */
+  var updateElementSrc = function (elem, resrcObj) {
+    // Declare image object if it was not supplied.
+    resrcObj = resrcObj || getResrcImageObject(elem);
     // Declare the resrc image path.
     var resrcImgPath = resrcObj.resrcImgPath;
     // Declare the fallback image path.
     var fallbackImgPath = resrcObj.fallbackImgPath;
     // Declare the current width of the element.
     var currentElemWidth = resrcObj.width;
-    // Set the last width of the element.
-    elem.lastWidth = elem.lastWidth || 0;
-    // If the resrcOnResizeDown option is is set to false, then...
-    if (options.resrcOnResizeDown === false) {
-      // Return if the last width of the element is >= to the current width.
-      if (elem.lastWidth >= currentElemWidth) {
-        return;
-      }
-    }
+
     // If element is an image tag, then...
     if (getTagName(elem) === "img"){
       // Set the src of the element to be the resrc image path.
@@ -755,10 +780,10 @@
         elem.style.backgroundImage = "url(" + fallbackImgPath + ")";
       };
     }
+
     // Set the elements last width = to the current width.
     elem.lastWidth = currentElemWidth;
   };
-
 
   /**
    * Initialize resrc
@@ -790,7 +815,7 @@
         addGestureendEvent(elemArr[i]);
       }
       // replace the element image source.
-      replaceElementSrc(elemArr[i]);
+      updateElementSrc(elemArr[i]);
     }
     // Finally add the window resize event if the resrcOnResize option is set to true.
     if (options.resrcOnResize && !windowHasResizeEvent) {
@@ -798,12 +823,30 @@
     }
   };
 
+  /**
+   * Update an image src with a new url
+   * @param elem
+   * @param url {string}
+   */
+  var setElementSrc = function(elem, url) {
+    // Return if one of the params is undefined.
+    if (!elem || !url) {
+      return;
+    }
+
+    // Set the image source manually
+    setImgSrc(elem, url);
+
+    // recalculate and reset the image src
+    updateElementSrc(elem);
+  };
 
   /**
    * Expose various private functions as public methods.
    */
   resrc.ready = domReady;
   resrc.run = initResrc;
+  resrc.setImageUrl = setElementSrc;
   resrc.getResrcImageObject = getResrcImageObject;
   resrc.getElementsByClassName = getElementsByClassName;
   resrc.options = options;
