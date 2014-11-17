@@ -815,7 +815,7 @@
         addGestureendEvent(elemArr[i]);
       }
       // replace the element image source.
-      updateElementSrc(elemArr[i]);
+      updateElementSrcIfNeeded(elemArr[i]);
     }
     // Finally add the window resize event if the resrcOnResize option is set to true.
     if (options.resrcOnResize && !windowHasResizeEvent) {
