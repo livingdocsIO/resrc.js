@@ -1,5 +1,5 @@
 {
-  "name": "resrc.js",
+  "name": "@livingdocs/resrc.js",
   "description": "A JavaScript library for pixel perfect images on demand.",
   "homepage": "https://github.com/resrcit/resrc.js/",
   "version": "0.9.0",
