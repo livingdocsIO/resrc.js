@@ -2,12 +2,12 @@
   "name": "resrc.js",
   "version" : "0.9.0",
   "description" : "A JavaScript library for pixel perfect images on demand.",
-  "homepage": "https://github.com/upfrontIO/resrc.js",
+  "homepage": "https://github.com/livingdocsIO/resrc.js",
   "main": "src/resrc.js",
   "license" : "GPL-2.0",
   "repository" : {
     "type" : "git",
-    "url" : "git@github.com:upfrontIO/resrc.js.git"
+    "url" : "git@github.com:livingdocsIO/resrc.js.git"
   },
   "ignore": [
     "**/**",
