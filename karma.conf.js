@@ -14,11 +14,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // test helpers
-      'spec/resrc_spec.js',
-
       // source files
       'src/resrc.js',
+      'src/imgix.js',
+      
+      // test helpers
+      'spec/resrc_spec.js'
     ],
 
     // list of files to exclude
